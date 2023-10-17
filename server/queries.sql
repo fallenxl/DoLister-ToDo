@@ -1,4 +1,3 @@
--- Crear la tabla de Usuarios con validaciones y campo created_at
 CREATE TABLE users (
   user_id SERIAL PRIMARY KEY,
   username VARCHAR(255) NOT NULL,
@@ -9,13 +8,12 @@ CREATE TABLE users (
   CONSTRAINT unique_email UNIQUE (email)
 );
 
--- Crear la tabla de Tareas con validaciones y campo created_at
 CREATE TABLE tasks (
   task_id SERIAL PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
   description TEXT,
-  completed BOOLEAN DEFAULT FALSE,
+  completed BOOLEAN NOT NULL DEFAULT FALSE,
   user_id INT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha y hora de creación
-  CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(user_id)
+  CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
