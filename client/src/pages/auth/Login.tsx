@@ -4,6 +4,7 @@ import { signIn } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { setLocalStorage } from "../../utils";
 import { LocalStorageKeys } from "../../constants";
+import Loading from "../../components/loader/Loading";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -12,6 +13,7 @@ const Login = () => {
         password: "",
     });
     const [error, setError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCredentials({
@@ -22,7 +24,9 @@ const Login = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setIsLoading(true);
         signIn(credentials).then((res) => {
+            setIsLoading(false);
             if (!res) return setError("Email or password is incorrect");
             setLocalStorage(LocalStorageKeys.DATA, res);
             navigate("/", { replace: true });
@@ -31,10 +35,10 @@ const Login = () => {
     };
 
 
+
     return (
         <main className="h-screen relative bg-gray-50">
-            {/* My Name */}
-            {/* <small className="absolute top-0 left-0 font-bold mt-2 mr-2 z-10">By: FallEN </small> */}
+            {isLoading && <Loading />}
             <div className="flex justify-center items-center h-full w-full">
 
                 <div className="flex flex-col justify-center w-full h-full lg:w-5/6 2xl:w-2/6 lg:h-4/6 shadow-md p-10 rounded-md bg-white">

@@ -3,6 +3,7 @@ import { Navigate, Outlet } from "react-router-dom"
 import { LocalStorageKeys } from "../constants"
 import { PublicRoutes } from "../constants/routes"
 import { regfreshToken } from "../services/auth.service"
+import Loading from "../components/loader/Loading"
 
 
 export const AuthGuard = () => {
@@ -17,7 +18,7 @@ export const AuthGuard = () => {
         validateUser()
     }, [])
 
-    if (isAuthenticated === null) return
+    if (isAuthenticated === null) return <Loading />
 
 
     return isAuthenticated ? <Outlet /> : <Navigate replace to={PublicRoutes.LOGIN} />

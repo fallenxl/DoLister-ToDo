@@ -3,6 +3,7 @@ import Login from "./pages/auth/Login"
 import Register from "./pages/auth/Register"
 import { PrivateRoutes, PublicRoutes } from "./constants/routes"
 import { AuthGuard } from "./guards"
+import Home from "./pages/home/Home"
 function App() {
 
   return (
@@ -12,7 +13,7 @@ function App() {
       <Route path={PublicRoutes.REGISTER} element={<Register/>} />
       <Route path={'/'} element={<Navigate replace to={PrivateRoutes.HOME} />} />
       <Route element={<AuthGuard/>}>
-        <Route path={PrivateRoutes.HOME} element={<h1>Hola</h1>} />
+        <Route path={PrivateRoutes.HOME} element={<Home/>} />
       </Route>
     </Routes>
    </Router>

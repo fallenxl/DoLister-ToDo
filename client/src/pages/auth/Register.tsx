@@ -4,6 +4,7 @@ import { signUp } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { setLocalStorage } from "../../utils";
 import { LocalStorageKeys } from "../../constants";
+import Loading from "../../components/loader/Loading";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ const Register = () => {
     });
 
     const [error, setError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean | null>(null);
     const [confirmPassword, setConfirmPassword] = useState<string>("");
 
     const handleConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,8 +31,10 @@ const Register = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setIsLoading(true);
         if (registerCredentials.password !== confirmPassword) return setError("Passwords don't match");
         signUp(registerCredentials).then((res) => {
+            setIsLoading(false);
             if(!res) return console.log("Something went wrong");
             setLocalStorage(LocalStorageKeys.DATA, res);
             navigate("/", { replace: true });
@@ -38,6 +42,7 @@ const Register = () => {
     }
     return (
         <main className="h-screen relative bg-gray-50">
+            {isLoading && <Loading />}
             <div className="flex justify-center items-center h-full w-full">
 
                 <div className="flex flex-col justify-center w-full h-full xl:h-auto lg:w-5/6 2xl:w-2/6 shadow-md p-10 rounded-md bg-white">

@@ -8,5 +8,10 @@ export interface RegisterCredentials extends AuthCredentials {
 }
 
 export interface AuthResponse {
+    user:{
+        username: string;
+        email: string;
+        avatar: string;
+    }
     token: string;
 }
