@@ -30,6 +30,10 @@ export function ModalCreateTask({ open, handler, setTasks }: Props) {
         if(!task.title || !task.description) return alert("Please fill all the fields");
         createTask(task).then((task) => {
             setTasks((tasks) => [...tasks, task]);
+            setTask({
+                title: "",
+                description: "",
+            });
             handler();
         });
     };

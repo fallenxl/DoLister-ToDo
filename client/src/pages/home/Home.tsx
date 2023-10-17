@@ -64,7 +64,7 @@ const Home = () => {
                         </div>
                         {/* render tasks */}
                         <ul className="w-full mt-4 p-4">
-                            {tasks.length > 0 && tasks.filter((task) => !task.completed).map((task) => {
+                            {tasks.filter(task => !task.completed).length > 0? tasks.filter((task) => !task.completed).map((task) => {
                                 return (
                                     <li className={`flex items-center w-full shadow-md py-4 px-2 mb-4 ${isTaskSelected(task.task_id) ? "bg-gray-200 opacity-40" : "bg-white"} duration-300 rounded-md `} key={task.task_id}>
                                         <div className="border-r border-gray-300 p-2">
@@ -87,7 +87,12 @@ const Home = () => {
 
                                     </li>
                                 )
-                            })}
+                            }) : <div className="flex  items-center justify-center w-full h-full gap-2">
+                                <small className="text-gray-500 text-sm">No tasks to do</small>
+                                <button onClick={handleOpen} className="text-sm underline rounded-md mr-2 flex items-center gap-2">
+                                    Add task
+                                </button>
+                            </div>}
                         </ul>
                     </section>
 
