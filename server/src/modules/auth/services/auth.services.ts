@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import { database } from '../../../database';
 import { UserCredentials } from '../interfaces';
 
@@ -8,7 +9,7 @@ export const validateUser = async (credentials: UserCredentials) => {
     if (!user) {
         throw new Error('User not found');
     }
-    const valid = await user.comparePassword(password);
+    const valid = await bcrypt.compare(password, user.password);
     if (!valid) {
         throw new Error('Invalid password');
     }

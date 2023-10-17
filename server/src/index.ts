@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import indexRoutes from './routes/index.routes';
 import db from './database/database';
+import { getUserById } from './modules/user/services/user.services';
 
 const app = express();
 const PORT = process.env.PORT || 4001;
@@ -18,7 +19,7 @@ app.use('/api', indexRoutes);
 
 // connect to db
 db.connect().then(() => {
-    console.log('Connected to database.');
+    console.log('Database connected');
 });
 
 app.listen(PORT, () => {
