@@ -116,6 +116,13 @@
   resolved "https://registry.npmjs.org/@types/http-errors/-/http-errors-2.0.2.tgz"
   integrity sha512-lPG6KlZs88gef6aD85z3HNkztpj7w2R7HmR3gygjfXCQmsLloWNARFkMuzKiiY8FGdh1XDpgBdrSf4aKDiA7Kg==
 
+"@types/jsonwebtoken@^9.0.3":
+  version "9.0.3"
+  resolved "https://registry.npmjs.org/@types/jsonwebtoken/-/jsonwebtoken-9.0.3.tgz"
+  integrity sha512-b0jGiOgHtZ2jqdPgPnP6WLCXZk1T8p06A/vPGzUvxpFGgKMbjXJDjC5m52ErqBnIuWZFgGoIJyRdeG5AyreJjA==
+  dependencies:
+    "@types/node" "*"
+
 "@types/mime@*":
   version "3.0.2"
   resolved "https://registry.npmjs.org/@types/mime/-/mime-3.0.2.tgz"
