@@ -5,6 +5,6 @@ export enum Endpoints {
     REFRESH_TOKEN = BASE_URL + 'auth/refresh-token',
     TASKS = BASE_URL + 'tasks/',
     TASK_STATUS = BASE_URL + 'tasks/status/',
-    DELETE_SELECTED_TASKS = BASE_URL + 'tasks/selected',
+    SELECTED_TASKS = BASE_URL + 'tasks/selected',
 }
 

@@ -29,3 +29,23 @@ export const toggleTaskCompleted = async (taskID: string) => {
 
     }
 };
+
+export const deleteTask = async (taskID: string) => {
+    try {
+        const { data } = await axios.delete(Endpoints.TASKS + taskID);
+        return data.task;
+    } catch (error) {
+
+    }
+};
+
+export const deleteSelectedTasks = async (tasksSelected: any) => {
+    try {
+        const { data } = await axios.delete(Endpoints.SELECTED_TASKS, { 
+            data: { tasksSelected }
+        });
+        return data.tasks;
+    } catch (error) {
+
+    }
+};

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ComplexNavbar } from "../../components/navbar/Navbar";
 import { Task } from "../../interfaces";
-import { getAllTasks, toggleTaskCompleted } from "../../services/task.services";
+import { deleteSelectedTasks, deleteTask, getAllTasks, toggleTaskCompleted } from "../../services/task.services";
 import { Checkbox } from "@material-tailwind/react";
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { ModalCreateTask } from "./ModalCreateTask";
@@ -36,6 +36,18 @@ const Home = () => {
         });
     };
 
+    const handleDeleteTask = (id: string) => {
+        deleteTask(id).then(() => {
+            setTasks(tasks.filter((task) => task.task_id !== id));
+
+        });
+    };
+    const handleDeleteSelectedTasks = () => {
+        deleteSelectedTasks(selectedTask).then(() => {
+            setTasks(tasks.filter((task) => !selectedTask.includes(task.task_id)));
+            setSelectedTask([]);
+        });
+    };
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(!open);
 
@@ -43,9 +55,9 @@ const Home = () => {
         <div className="bg-gray-50 w-full min-h-screen p-4">
             <ModalCreateTask setTasks={setTasks} open={open} handler={handleOpen} />
             <ComplexNavbar />
-            <main className="flex justify-center mt-10 ">
-                <div className="w-[70rem]">
-                    <section >
+            <main className="flex justify-center mt-10 min-h-[calc(100vh-200px)]">
+                <div className="w-full flex flex-col xl:w-3/4 xl:flex-row ">
+                    <section className="w-full" >
                         <div className="flex justify-between w-full border-b p-4 ">
                             <div className="flex flex-col justify-center ">
                                 <h1 className="text-3xl font-bold">To Do</h1>
@@ -57,7 +69,7 @@ const Home = () => {
                                     <PlusIcon className="h-6 w-6" />
                                     Add task
                                 </button>
-                                {selectedTask.length > 0 && <button className="bg-gray-500 hover:bg-red-400 text-white px-4 py-2 rounded-md mr-2 flex items-center gap-2">
+                                {selectedTask.length > 0 && <button onClick={handleDeleteSelectedTasks} className="bg-gray-500 hover:bg-red-400 text-white px-4 py-2 rounded-md mr-2 flex items-center gap-2">
                                     <TrashIcon className="h-6 w-6" />
                                     {`Delete ${selectedTask.length} tasks`}
                                 </button>}
@@ -65,9 +77,9 @@ const Home = () => {
                         </div>
                         {/* render tasks */}
                         <ul className="w-full mt-4 p-4">
-                            {tasks.filter(task => !task.completed).length > 0? tasks.filter((task) => !task.completed).map((task) => {
+                            {tasks.filter(task => !task.completed).length > 0 ? tasks.filter((task) => !task.completed).map((task) => {
                                 return (
-                                    <li className={`flex items-center w-full shadow-md py-4 px-2 mb-4 ${isTaskSelected(task.task_id) ? "bg-gray-200 opacity-40" : "bg-white"} duration-300 rounded-md `} key={task.task_id}>
+                                    <li className={`flex items-center w-full shadow-md py-4 px-2 mb-4 ${isTaskSelected(task.task_id) ? "bg-blue-gray-50 opacity-80" : "bg-white"} duration-300 rounded-md `} key={task.task_id}>
                                         <div className="border-r border-gray-300 p-2">
                                             <Checkbox
                                                 crossOrigin={undefined}
@@ -82,10 +94,10 @@ const Home = () => {
                                             <small className="text-xs text-gray-600 ">Description</small>
                                             <p className="text-sm">{task.description}</p>
                                         </div>
-                                        <small className="text-xs text-gray-600 px-4">{getDays(task.created_at)}</small>
-                                        <div className="p-4 border-l">
+                                        <small className="hidden md:block text-xs text-gray-600 px-4">{getDays(task.created_at)}</small>
+                                        <button onClick={() => handleDeleteTask(task.task_id)} className="p-4 border-l">
                                             <TrashIcon className="h-6 w-6 text-red-500 cursor-pointer" />
-                                        </div>
+                                        </button>
 
                                     </li>
                                 )
@@ -98,7 +110,7 @@ const Home = () => {
                         </ul>
                     </section>
 
-                    {tasks.filter(task => task.completed).length > 0 && <section >
+                    <section className="w-full">
                         <div className="flex justify-between w-full border-b p-4 ">
                             <div className="flex flex-col justify-center ">
                                 <h1 className="text-3xl font-bold">Completed</h1>
@@ -107,9 +119,10 @@ const Home = () => {
                         </div>
                         {/* render tasks */}
                         <ul className="w-full mt-4 p-4">
-                            {tasks.length > 0 && tasks.filter((task) => task.completed).map((task) => {
+                            {tasks.filter(task => task.completed).length > 0 ? tasks.filter((task) => task.completed).map((task) => {
                                 return (
-                                    <li className="flex items-center w-full shadow-md py-4 px-2 mb-4 bg-gray-100 opacity-80 rounded-md " key={task.task_id}>
+                                    <li
+                                        className={`flex items-center w-full shadow-md py-4 px-2 mb-4 cursor-pointer ${isTaskSelected(task.task_id) ? "bg-blue-gray-50" : "bg-gray-100"} opacity-80 rounded-md `} key={task.task_id}>
                                         <div className="border-r border-gray-300 p-2">
 
                                             <Checkbox
@@ -121,7 +134,7 @@ const Home = () => {
                                             />
                                         </div>
 
-                                        <div className="flex flex-col justify-center px-5 flex-grow">
+                                        <div onClick={() => handleSelectedTask(task.task_id)} className="flex flex-col justify-center px-5 flex-grow">
 
                                             <h1 className="text-xl md:text-2xl font-bold mb-2 line-through">{task.title}</h1>
                                             <small className="text-xs text-gray-600 ">Description</small>
@@ -132,14 +145,18 @@ const Home = () => {
                                         </div>
                                     </li>
                                 )
-                            })}
+                            }) : <div className="flex  items-center justify-center w-full h-full gap-2">
+                                <small className="text-gray-500 text-sm">No tasks completed</small>
+                            </div>}
                         </ul>
-                    </section>}
-
-
-                    {/* Lista de tareas */}
+                    </section>
                 </div>
             </main>
+            {/* footer */}
+            <small className="text-center block w-full mt-10 text-gray-500">
+                &copy; 2023 DoLister. All rights reserved.
+                Powered by <a href="https://github.com/fallenxl" target="_blank"  className="underline hover:text-gray-600">FallEn</a>
+            </small>
         </div>
     );
 };

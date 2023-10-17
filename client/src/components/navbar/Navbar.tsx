@@ -17,7 +17,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { LocalStorageKeys } from "../../constants";
 import { AuthResponse } from "../../interfaces";
-import { getLocalStorage } from "../../utils";
+import { getLocalStorage, getTimeOfTheDay } from "../../utils";
 import { signOut } from "../../services/auth.service";
  
 // profile menu component
@@ -30,13 +30,15 @@ const profileMenuItems = [
  
 function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-    const [avatar, setAvatar] = useState<string>("");
+    const [user, setUser] = useState({
+    avatar: "",
+    username: "",
+    email: "",
+    });
   useEffect(() => {
     const data = getLocalStorage<AuthResponse>(LocalStorageKeys.DATA);
-    // console.log(data?.user.avatar);
-    if (data?.user.avatar) {
-      const avatar = data.user.avatar;
-      setAvatar(avatar);
+    if (data?.user) {
+      setUser(data.user);
     }
   }, []);
   const handleLogout = () => {
@@ -45,6 +47,10 @@ function ProfileMenu() {
  
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
+      {/* Saludo */}
+      <div className="flex items-center gap-2 mr-2">
+        <span className="text-sm font-medium">{getTimeOfTheDay(user.username)}</span>
+      </div>
       <MenuHandler>
         <Button
           variant="text"
@@ -56,7 +62,7 @@ function ProfileMenu() {
             size="sm"
             alt="tania andrew"
             className="border border-gray-900 p-0.5"
-            src={avatar}
+            src={user.avatar}
           />
           <ChevronDownIcon
             strokeWidth={2.5}
@@ -97,9 +103,9 @@ export function ComplexNavbar() {
 
  
   return (
-    <Navbar shadow={false} className="mx-auto max-w-screen-xl p-3 lg:rounded-md lg:pl-6 border border-gray-200 shadow-sm">
+    <Navbar fullWidth shadow={false} className="mx-auto w-full xl:w-3/4 p-3 lg:rounded-md lg:pl-6 border border-gray-200 shadow-sm">
       <div className="relative mx-auto flex justify-between items-center text-blue-gray-900">
-       <h1 className=" font-medium text-gray-700">DoLister</h1>
+       <h1 className=" font-medium text-gray-700 flex flex-grow">DoLister</h1>
         <ProfileMenu />
       </div>
     </Navbar>
