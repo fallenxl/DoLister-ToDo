@@ -18,6 +18,7 @@ import {
 import { LocalStorageKeys } from "../../constants";
 import { AuthResponse } from "../../interfaces";
 import { getLocalStorage } from "../../utils";
+import { signOut } from "../../services/auth.service";
  
 // profile menu component
 const profileMenuItems = [
@@ -38,7 +39,9 @@ function ProfileMenu() {
       setAvatar(avatar);
     }
   }, []);
-  const closeMenu = () => setIsMenuOpen(false);
+  const handleLogout = () => {
+    signOut();
+  };
  
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -69,7 +72,7 @@ function ProfileMenu() {
           return (
             <MenuItem
               key={label}
-              onClick={closeMenu}
+              onClick={handleLogout}
               className={`flex items-center gap-2 rounded ${
                 isLastItem
                   ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
@@ -94,9 +97,9 @@ export function ComplexNavbar() {
 
  
   return (
-    <Navbar className="mx-auto max-w-screen-xl p-2 lg:rounded-full lg:pl-6">
+    <Navbar shadow={false} className="mx-auto max-w-screen-xl p-2 lg:rounded-full lg:pl-6 border border-gray-200 shadow-sm">
       <div className="relative mx-auto flex justify-between items-center text-blue-gray-900">
-       <h1 className="text-lg font-bold text-gray-700">Project Management</h1>
+       <h1 className=" font-medium text-gray-700">DoLister</h1>
         <ProfileMenu />
       </div>
     </Navbar>
