@@ -2,6 +2,8 @@ import { useState } from "react";
 import { RegisterCredentials } from "../../interfaces";
 import { signUp } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
+import { setLocalStorage } from "../../utils";
+import { LocalStorageKeys } from "../../constants";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -30,6 +32,7 @@ const Register = () => {
         if (registerCredentials.password !== confirmPassword) return setError("Passwords don't match");
         signUp(registerCredentials).then((res) => {
             if(!res) return console.log("Something went wrong");
+            setLocalStorage(LocalStorageKeys.DATA, res);
             navigate("/", { replace: true });
         });
     }

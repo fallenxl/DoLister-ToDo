@@ -1,15 +1,24 @@
 import { useEffect, useState } from "react"
 import { Navigate, Outlet } from "react-router-dom"
+import { LocalStorageKeys } from "../constants"
+import { PublicRoutes } from "../constants/routes"
+import { regfreshToken } from "../services/auth.service"
 
 
 export const AuthGuard = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false)
-
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
     useEffect(() => {
+        const validateUser = async () => {
+            const data = await regfreshToken()
+            if (!data) return setIsAuthenticated(false)
+            setIsAuthenticated(true)
+            localStorage.setItem(LocalStorageKeys.DATA, JSON.stringify(data))
+        }
+        validateUser()
     }, [])
-    
-    if(!isAuthenticated) return (<h1>Not Authenticated</h1>)
-    
 
-    return isAuthenticated ? <Outlet/> : <Navigate to="/login" />
+    if (isAuthenticated === null) return
+
+
+    return isAuthenticated ? <Outlet /> : <Navigate replace to={PublicRoutes.LOGIN} />
 }
