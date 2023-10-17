@@ -16,7 +16,13 @@ export const validateUser = async (credentials: UserCredentials): Promise<AuthRe
             throw new Error('Invalid password');
         }
         const token = generateToken(user);
-        return { msg: 'Login successfull', token };
+        return {
+            user: {
+                username: user.username,
+                email: user.email,
+                avatar: user.avatar
+            }, token
+        };
     } catch (error) {
         throw new Error(error);
     }
@@ -30,9 +36,17 @@ export const registerUser = async (user: UserDTO): Promise<AuthResponse> => {
         }
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
+        user.avatar = `https://api.dicebear.com/7.x/pixel-art-neutral/svg?seed=${user.username}`;
+        
         const newUser = await createUser(user);
         const token = generateToken(newUser);
-        return { msg: 'User created successfully', token };
+        return {
+            user: {
+                username: newUser.username,
+                email: newUser.email,
+                avatar: newUser.avatar
+            }, token
+        };
 
     } catch (error) {
         throw new Error(error);
@@ -46,7 +60,14 @@ export const refreshToken = async (id: string): Promise<AuthResponse> => {
             throw new Error('User not found');
         }
         const token = generateToken(user);;
-        return { msg: 'Token refreshed', token };
+        return {
+            user: {
+                username: user.username,
+                email: user.email,
+                avatar: user.avatar
+            }
+            , token
+        };
     } catch (error) {
         throw new Error(`Error while refreshing token: ${error.message}`);
     }

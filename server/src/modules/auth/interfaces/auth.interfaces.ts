@@ -12,7 +12,11 @@ export interface AuthTokenResult  {
 }
 
 export interface AuthResponse{
-    msg: string;
+    user: {
+        username: string;
+        email: string;
+        avatar: string;
+    }
     token: string;
 }
 
