@@ -3,7 +3,7 @@ import { TaskDTO, UpdateTaskDTO } from "../interfaces";
 
 export const getAllTasks = async (userID: string) => {
     try {
-        const query = `SELECT * FROM tasks WHERE user_id = $1;`;
+        const query = `SELECT * FROM tasks WHERE user_id = $1 ORDER BY created_at ASC;`;
         const tasks = await database.query(query, [userID]);
         return tasks;
     } catch (error) {
