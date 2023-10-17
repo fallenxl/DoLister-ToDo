@@ -3,8 +3,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import indexRoutes from './routes/index.routes';
 import db from './database/database';
-import { getUserById } from './modules/user/services/user.services';
-import { deleteSelectedTasks } from './modules/task/services/task.services';
+
 
 const app = express();
 const PORT = process.env.PORT || 4001;
@@ -17,6 +16,12 @@ app.use(cors());
 
 // Routes
 app.use('/api', indexRoutes);
+
+// frontend
+app.use(express.static('public'));
+app.get('*', (_req, res) => {
+    res.sendFile('index.html', { root: 'public' });
+});
 
 // connect to db
 db.connect().then(() => {
