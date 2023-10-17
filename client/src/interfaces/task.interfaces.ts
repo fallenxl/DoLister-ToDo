@@ -6,3 +6,8 @@ export interface Task {
     user_id : string;
     created_at : Date;
 }
+
+export interface TaskDTO {
+    title : string;
+    description : string;
+}

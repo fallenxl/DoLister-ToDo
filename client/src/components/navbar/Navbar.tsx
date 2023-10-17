@@ -97,7 +97,7 @@ export function ComplexNavbar() {
 
  
   return (
-    <Navbar shadow={false} className="mx-auto max-w-screen-xl p-2 lg:rounded-full lg:pl-6 border border-gray-200 shadow-sm">
+    <Navbar shadow={false} className="mx-auto max-w-screen-xl p-3 lg:rounded-md lg:pl-6 border border-gray-200 shadow-sm">
       <div className="relative mx-auto flex justify-between items-center text-blue-gray-900">
        <h1 className=" font-medium text-gray-700">DoLister</h1>
         <ProfileMenu />
