@@ -4,6 +4,7 @@ import cors from 'cors';
 import indexRoutes from './routes/index.routes';
 import db from './database/database';
 import { getUserById } from './modules/user/services/user.services';
+import { deleteSelectedTasks } from './modules/task/services/task.services';
 
 const app = express();
 const PORT = process.env.PORT || 4001;
@@ -19,7 +20,7 @@ app.use('/api', indexRoutes);
 
 // connect to db
 db.connect().then(() => {
-    console.log('Database connected');
+    console.log('Database connected.');
 });
 
 app.listen(PORT, () => {
