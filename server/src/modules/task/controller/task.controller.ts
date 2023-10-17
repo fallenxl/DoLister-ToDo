@@ -1,6 +1,7 @@
 import { Response } from "express";
 import { createTask, deleteAllTasks, deleteSelectedTasks, deleteTaskByID, getAllTasks, getTaskByID, toggleTaskCompleted, updateTask } from "../services";
 import { TaskDTO, UpdateTaskDTO } from "../interfaces";
+import { Console } from "console";
 
 export const getAllTasksController = async (req: any, res: Response) => {
     try {
@@ -19,7 +20,7 @@ export const getTaskByIDController = async (req: any, res: Response) => {
     try {
         const task = await getTaskByID(req.params.id, req.userID);
 
-        if(!task) return res.status(404).json({ message: 'Task not found' });
+        if (!task) return res.status(404).json({ message: 'Task not found' });
 
         res.status(200).json({
             msg: 'Task retrieved successfully',
@@ -77,6 +78,7 @@ export const deleteSelectedTasksController = async (req: any, res: Response) => 
             tasksDeleted,
         });
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: error.message });
     }
 };

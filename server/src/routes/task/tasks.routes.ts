@@ -16,8 +16,8 @@ router.put("/status/:id", toggleTaskCompletedController);
 
 // Delete routes
 router.delete("/", deleteAllTasksController);
-router.delete("/:id", deleteTaskByIDController);
 router.delete("/selected", deleteSelectedTasksController);
+router.delete("/:id", deleteTaskByIDController);
 
 
 export default router;

@@ -55,6 +55,7 @@ export const toggleTaskCompleted = async (taskID: string, userID: string) => {
 
 export const deleteSelectedTasks = async (taskIDs: string[], userID: string) => {
     try {
+
         const query = `DELETE FROM tasks WHERE task_id IN ($1:csv) AND user_id = $2 RETURNING *;`;
         const tasksDeleted = await database.query(query, [taskIDs, userID]);
         return tasksDeleted;
