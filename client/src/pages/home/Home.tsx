@@ -5,6 +5,7 @@ import { getAllTasks, toggleTaskCompleted } from "../../services/task.services";
 import { Checkbox } from "@material-tailwind/react";
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { ModalCreateTask } from "./ModalCreateTask";
+import { getDays } from "../../utils";
 
 const Home = () => {
     const [tasks, setTasks] = useState<Task[]>([]);
@@ -81,6 +82,7 @@ const Home = () => {
                                             <small className="text-xs text-gray-600 ">Description</small>
                                             <p className="text-sm">{task.description}</p>
                                         </div>
+                                        <small className="text-xs text-gray-600 px-4">{getDays(task.created_at)}</small>
                                         <div className="p-4 border-l">
                                             <TrashIcon className="h-6 w-6 text-red-500 cursor-pointer" />
                                         </div>
