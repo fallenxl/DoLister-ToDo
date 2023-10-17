@@ -41,7 +41,7 @@ export const registerUser = async (user: UserDTO) => {
 
 export const generateToken = (user: IUser) => {
     const payload = {
-        user_id: user.user_id,
+        sub: user.user_id,
 
     };
     return jwt.sign(payload, process.env.SECRET_KEY || 'secret', { expiresIn: '1h' });
