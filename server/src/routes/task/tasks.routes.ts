@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createTaskController, deleteAllTasksController, deleteSelectedTasksController, deleteTaskByIDController, getAllTasksController, getTaskByIDController, updateTaskController } from "../../modules/task/controller";
+import { createTaskController, deleteAllTasksController, deleteSelectedTasksController, deleteTaskByIDController, getAllTasksController, getTaskByIDController, toggleTaskCompletedController, updateTaskController } from "../../modules/task/controller";
 
 const router = Router();
 
@@ -12,6 +12,7 @@ router.post("/", createTaskController);
 
 // Update routes
 router.put("/:id", updateTaskController);
+router.put("/status/:id", toggleTaskCompletedController);
 
 // Delete routes
 router.delete("/", deleteAllTasksController);
