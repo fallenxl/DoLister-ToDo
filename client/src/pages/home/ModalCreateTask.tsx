@@ -2,7 +2,6 @@ import {
     Dialog,
     Card,
     CardBody,
-    CardFooter,
     Input,
     Textarea,
 } from "@material-tailwind/react";
@@ -74,10 +73,6 @@ export function ModalCreateTask({ open, handler, setTasks }: Props) {
 
                         </div>
                     </CardBody>
-                    <CardFooter className="pt-0">
-
-
-                    </CardFooter>
                 </Card>
             </Dialog>
         </>

@@ -37,11 +37,11 @@ const Login = () => {
 
 
     return (
-        <main className="h-screen relative bg-gray-50">
+        <main className="h-screen relative bg-gray-50 lg:p-2">
             {isLoading && <Loading />}
             <div className="flex justify-center items-center h-full w-full">
 
-                <div className="flex flex-col justify-center w-full h-full lg:w-5/6 2xl:w-2/6 lg:h-4/6 shadow-md p-10 rounded-md bg-white">
+                <div className="flex flex-col justify-center w-full h-full lg:w-3/6 2xl:w-2/6 lg:h-auto shadow-md p-10 rounded-md bg-white">
 
                     <div className="mb-10">
                         <h1 className="text-4xl font-bold mb-4">Welcome back 👋</h1>

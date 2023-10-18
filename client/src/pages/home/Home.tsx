@@ -128,10 +128,10 @@ const Home = () => {
                                     <PlusIcon className="h-6 w-6" />
                                     Add task
                                 </button>
-                                <button onClick={handleDeleteAllTasks} className="bg-gray-500 text-sm hover:bg-red-400 text-white flex-grow p-2 lg:flex-grow-0  rounded-md mr-2 flex  items-center gap-2">
+                                {tasks.length > 0 && <button onClick={handleDeleteAllTasks} className="bg-gray-500 text-sm hover:bg-red-400 text-white flex-grow p-2 lg:flex-grow-0  rounded-md mr-2 flex  items-center gap-2">
                                     <TrashIcon className="h-6 w-6" />
                                     Clear board
-                                </button>
+                                </button>}
                                 {selectedTask.length > 0 && <button onClick={handleDeleteSelectedTasks} className="bg-gray-500 text-sm hover:bg-red-400  flex-grow lg:flex-grow-0 text-white p-2 rounded-md mr-2 flex items-center gap-2">
                                     <TrashIcon className="h-6 w-6" />
                                     {`Delete ${selectedTask.length} tasks`}
