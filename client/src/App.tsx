@@ -15,6 +15,7 @@ function App() {
       <Route element={<AuthGuard/>}>
         <Route path={PrivateRoutes.HOME} element={<Home/>} />
       </Route>
+      <Route path="*" element={<Navigate replace to={PrivateRoutes.HOME} />} />
     </Routes>
    </Router>
   )
