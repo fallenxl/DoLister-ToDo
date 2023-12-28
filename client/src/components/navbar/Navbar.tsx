@@ -17,7 +17,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 import { getTimeOfTheDay } from "../../utils";
-import { signOut } from "../../services/auth.service";
+
  
 // profile menu component
 const profileMenuItems = [
@@ -31,7 +31,7 @@ function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] =useState(false);
  
   const handleLogout = () => {
-    signOut();
+    window.location.href = "/login";
   };
  
   return (

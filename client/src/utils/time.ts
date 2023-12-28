@@ -1,6 +1,8 @@
 import moment from 'moment';
 export const getDays = (date: Date) => {
-    return moment(date).startOf('hour').fromNow();
+    moment.locale('es');
+    const formatDate = moment(date)
+    return formatDate.fromNow();
 };
 
 export const getTimeOfTheDay = (name: string) => {
