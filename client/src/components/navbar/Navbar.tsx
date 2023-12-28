@@ -29,10 +29,7 @@ const profileMenuItems = [
  
 function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] =useState(false);
- 
-  const handleLogout = () => {
-    window.location.href = "/login";
-  };
+
  
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -70,7 +67,6 @@ function ProfileMenu() {
             <MenuItem
             placeholder={undefined}
               key={label}
-              onClick={handleLogout}
               className={`flex items-center gap-2 rounded ${
                 isLastItem
                   ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
