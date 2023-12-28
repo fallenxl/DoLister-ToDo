@@ -10,11 +10,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path={'/home'} element={<Home />} />
+        <Route path={'/'} element={<Home />} />
 
         <Route
           path="*"
-          element={<Navigate replace to={'/home'} />}
+          element={<Navigate replace to={'/'} />}
         />
       </Routes>
     </Router>
