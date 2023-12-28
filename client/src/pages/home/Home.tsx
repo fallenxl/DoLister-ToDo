@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { ComplexNavbar } from "../../components/navbar/Navbar";
 import { Task } from "../../interfaces";
-import { deleteAllTasks, deleteSelectedTasks, deleteTask, getAllTasks, toggleTaskCompleted } from "../../services/task.services";
 import { Checkbox } from "@material-tailwind/react";
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { ModalCreateTask } from "./ModalCreateTask";
-import { getDays } from "../../utils";
+import { getDays, getTasksOfLocalStorage, removeSelectedTasksFromLocalStorage, removeTaskFromLocalStorage, removeTasksFromLocalStorage, toggleTaskStatusInLocalStorage } from "../../utils";
 import Swal from "sweetalert2";
 
 const Home = () => {
@@ -13,9 +12,7 @@ const Home = () => {
     const [selectedTask, setSelectedTask] = useState<string[]>([]);
 
     useEffect(() => {
-        getAllTasks().then((tasks) => {
-            setTasks(tasks);
-        });
+       setTasks(getTasksOfLocalStorage());
     }, [])
 
     const handleSelectedTask = (id: string) => {
@@ -32,9 +29,8 @@ const Home = () => {
     };
 
     const handleToggleTask = (id: string) => {
-        toggleTaskCompleted(id).then((_task) => {
-            setTasks(tasks.map((task) => task.task_id === id ? { ...task, completed: !task.completed } : task));
-        });
+        toggleTaskStatusInLocalStorage(id);
+        setTasks(tasks.map((task) => task.task_id === id ? { ...task, completed: !task.completed } : task));
     };
 
     const handleDeleteTask = (id: string) => {
@@ -48,10 +44,10 @@ const Home = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                deleteTask(id).then(() => {
-                    setTasks(tasks.filter((task) => task.task_id !== id));
-                    setSelectedTask(selectedTask.filter((taskId) => taskId !== id));
-                });
+                removeTaskFromLocalStorage(id);
+                setTasks(tasks.filter((task) => task.task_id !== id));
+                setSelectedTask(selectedTask.filter((taskId) => taskId !== id));
+                
                 Swal.fire(
                     'Deleted!',
                     'Your task has been deleted.',
@@ -71,10 +67,10 @@ const Home = () => {
             confirmButtonText: 'Yes, delete them!'
         }).then((result) => {
             if (result.isConfirmed) {
-                deleteSelectedTasks(selectedTask).then(() => {
-                    setTasks(tasks.filter((task) => !selectedTask.includes(task.task_id)));
-                    setSelectedTask([]);
-                });
+                removeSelectedTasksFromLocalStorage(selectedTask);
+                setTasks(tasks.filter((task) => !selectedTask.includes(task.task_id)));
+                setSelectedTask([]);
+               
                 Swal.fire(
                     'Deleted!',
                     'Your tasks has been deleted.',
@@ -95,10 +91,10 @@ const Home = () => {
             confirmButtonText: 'Yes, delete them!'
         }).then((result) => {
             if (result.isConfirmed) {
-                deleteAllTasks().then(() => {
-                    setTasks([]);
-                    setSelectedTask([]);
-                });
+                removeTasksFromLocalStorage();
+                setTasks([]);
+                setSelectedTask([]);
+              
                 Swal.fire(
                     'Deleted!',
                     'Your tasks has been deleted.',
@@ -111,7 +107,7 @@ const Home = () => {
     const handleOpen = () => setOpen(!open);
 
     return (
-        <div className="bg-gray-50 w-full min-h-screen p-4">
+        <div className="bg-gray-50 w-full h-[100vh] p-4">
             <ModalCreateTask setTasks={setTasks} open={open} handler={handleOpen} />
             <ComplexNavbar />
             <main className="flex justify-center mt-10 min-h-[calc(100vh-200px)]">
@@ -142,7 +138,7 @@ const Home = () => {
                         <ul className="w-full mt-4 p-4">
                             {tasks.filter(task => !task.completed).length > 0 ? tasks.filter((task) => !task.completed).map((task) => {
                                 return (
-                                    <li className={`flex items-center w-full shadow-md py-4 px-2 mb-4 ${isTaskSelected(task.task_id) ? "bg-blue-gray-50 opacity-80" : "bg-white"} duration-300 rounded-md `} key={task.task_id}>
+                                    <li className={`flex items-center w-full shadow-md py-4 px-2 mb-4 ${isTaskSelected(task.task_id) ? "bg-gray-300 opacity-80" : "bg-white"} duration-300 rounded-md `} key={task.task_id}>
                                         <div className="border-r border-gray-300 p-2">
                                             <Checkbox
                                                 crossOrigin={undefined}
@@ -185,7 +181,7 @@ const Home = () => {
                             {tasks.filter(task => task.completed).length > 0 ? tasks.filter((task) => task.completed).map((task) => {
                                 return (
                                     <li
-                                        className={`flex items-center w-full shadow-md py-4 px-2 mb-4  ${isTaskSelected(task.task_id) ? "bg-blue-gray-50" : "bg-gray-100"} opacity-80 rounded-md `} key={task.task_id}>
+                                        className={`flex items-center w-full shadow-md py-4 px-2 mb-4  ${isTaskSelected(task.task_id) ? "bg-gray-300 opacity-1" : "bg-gray-200 opacity-80"}  rounded-md cursor-pointer `} key={task.task_id}>
                                         <div className="border-r border-gray-300 p-2">
 
                                             <Checkbox

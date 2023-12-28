@@ -30,17 +30,7 @@ const profileMenuItems = [
  
 function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-    const [user, setUser] = useState({
-    avatar: "",
-    username: "",
-    email: "",
-    });
-  useEffect(() => {
-    const data = getLocalStorage<AuthResponse>(LocalStorageKeys.DATA);
-    if (data?.user) {
-      setUser(data.user);
-    }
-  }, []);
+ 
   const handleLogout = () => {
     signOut();
   };
@@ -49,20 +39,22 @@ function ProfileMenu() {
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
       {/* Saludo */}
       <div className="flex items-center gap-2 mr-2">
-        <span className="text-sm font-medium">{getTimeOfTheDay(user.username)}</span>
+        <span className="text-sm font-medium">{getTimeOfTheDay("Demo")}</span>
       </div>
       <MenuHandler>
         <Button
+        placeholder={undefined}
           variant="text"
           color="blue-gray"
           className="flex items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto"
         >
           <Avatar
+          placeholder={undefined}
             variant="circular"
             size="sm"
             alt="tania andrew"
             className="border border-gray-900 p-0.5"
-            src={user.avatar}
+            src="https://api.dicebear.com/7.x/thumbs/svg?seed=Midnight"
           />
           <ChevronDownIcon
             strokeWidth={2.5}
@@ -72,11 +64,12 @@ function ProfileMenu() {
           />
         </Button>
       </MenuHandler>
-      <MenuList className="p-1">
+      <MenuList placeholder={undefined} className="p-1">
         {profileMenuItems.map(({ label, icon }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
             <MenuItem
+            placeholder={undefined}
               key={label}
               onClick={handleLogout}
               className={`flex items-center gap-2 rounded ${
@@ -103,7 +96,7 @@ export function ComplexNavbar() {
 
  
   return (
-    <Navbar fullWidth shadow={false} className="mx-auto w-full xl:w-3/4 p-3 lg:rounded-md lg:pl-6 border border-gray-200 shadow-sm">
+    <Navbar placeholder={undefined} fullWidth shadow={false} className="mx-auto w-full xl:w-3/4 p-3 lg:rounded-md lg:pl-6 border border-gray-200 shadow-sm">
       <div className="relative mx-auto flex justify-between items-center text-blue-gray-900">
        <h1 className=" font-medium text-gray-700 flex flex-grow">DoLister</h1>
         <ProfileMenu />

@@ -1,3 +1,4 @@
 export enum LocalStorageKeys {
-    DATA = 'auth.data'
+    DATA = 'auth.data',
+    TASKS = 'tasks'
 }

@@ -6,8 +6,8 @@ import {
     Textarea,
 } from "@material-tailwind/react";
 import { Task, TaskDTO } from "../../interfaces";
-import { createTask } from "../../services/task.services";
 import { useEffect, useState } from "react";
+import { addTaskToLocalStorage } from "../../utils";
 
 interface Props {
     open: boolean;
@@ -29,14 +29,13 @@ export function ModalCreateTask({ open, handler, setTasks }: Props) {
         if(!task.title || !task.description){
               return  setError("* Please fill all the fields");
         }
-        createTask(task).then((task) => {
-            setTasks((tasks) => [...tasks, task]);
-            setTask({
-                title: "",
-                description: "",
-            });
-            handler();
+        const newTask = addTaskToLocalStorage(task);
+        setTasks((tasks) => [...tasks, newTask ]);
+        setTask({
+            title: "",
+            description: "",
         });
+        handler();
     };
 
     useEffect(() => {
@@ -53,10 +52,11 @@ export function ModalCreateTask({ open, handler, setTasks }: Props) {
                 size="xl"
                 open={open}
                 handler={handler}
+                placeholder={undefined}
                 className="bg-transparent shadow-none"
             >
-                <Card className="mx-auto w-full max-w-[50rem]">
-                    <CardBody className="flex flex-col gap-4">
+                <Card placeholder={undefined} className="mx-auto w-full max-w-[50rem]">
+                    <CardBody placeholder={undefined} className="flex flex-col gap-4">
                         <h1 className="text-3xl font-bold">Create Task</h1>
                         {error && <p className="text-red-500">{error}</p>}
                         <div className="flex flex-col gap-4">
