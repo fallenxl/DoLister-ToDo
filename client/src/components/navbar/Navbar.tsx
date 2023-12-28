@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState, createElement } from "react";
 import {
   Navbar,
   Button,
@@ -15,9 +15,8 @@ import {
   PowerIcon,
 
 } from "@heroicons/react/24/outline";
-import { LocalStorageKeys } from "../../constants";
-import { AuthResponse } from "../../interfaces";
-import { getLocalStorage, getTimeOfTheDay } from "../../utils";
+
+import { getTimeOfTheDay } from "../../utils";
 import { signOut } from "../../services/auth.service";
  
 // profile menu component
@@ -29,7 +28,7 @@ const profileMenuItems = [
 ];
  
 function ProfileMenu() {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] =useState(false);
  
   const handleLogout = () => {
     signOut();
@@ -78,7 +77,7 @@ function ProfileMenu() {
                   : ""
               }`}
             >
-              {React.createElement(icon, {
+              {createElement(icon, {
                 className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
                 strokeWidth: 2,
               })}
